@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - CivicRising</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>🌟 CivicRising</h1>
+            </div>
+                        <ul class="nav-menu">
+                <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+                <li><a href="civics-education.html"><span class="nav-icon">📚</span>Education</a></li>
+                <li><a href="community-issues.html"><span class="nav-icon">🌍</span>Issues</a></li>
+                <li><a href="civics-data.html"><span class="nav-icon">📊</span>Data</a></li>
+                <li><a href="youth-actions.html"><span class="nav-icon">✊</span>Actions</a></li>
+                <li><a href="community-events.html"><span class="nav-icon">📅</span>Events</a></li>
+                <li><a href="resources.html"><span class="nav-icon">💡</span>Resources</a></li>
+                <li><a href="team.html" class="active"><span class="nav-icon">👥</span>About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>📊 About CivicRising</h1>
+            <p>Numbers that tell the story of civic engagement in our community</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="section">
+        <div class="container">
+            <!-- Key Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="stat-number">68%</div>
+                    <h3>Voter Turnout</h3>
+                    <p>Last local election turnout rate</p>
+                </div>
+
+                <div class="stat-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    <div class="stat-number">1,250+</div>
+                    <h3>Active Youth</h3>
+                    <p>Students engaged in civic programs</p>
+                </div>
+
+                <div class="stat-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    <div class="stat-number">42</div>
+                    <h3>Active Programs</h3>
+                    <p>Ongoing civic engagement initiatives</p>
+                </div>
+
+                <div class="stat-card" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                    <div class="stat-number">95%</div>
+                    <h3>Student Satisfaction</h3>
+                    <p>Students who found programs valuable</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Impact -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Community Impact</h2>
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-icon">🌳</div>
+                    <h3>500+ Trees Planted</h3>
+                    <p>Students organized community tree-planting events throughout the year</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">📚</div>
+                    <h3>2,000+ Hours Tutoring</h3>
+                    <p>Volunteer tutoring hours provided by student mentors</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">🗑️</div>
+                    <h3>3 Tons of Waste Removed</h3>
+                    <p>Community clean-up initiatives led by youth volunteers</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">💰</div>
+                    <h3>$15,000 Raised</h3>
+                    <p>Fundraising for local charities and community causes</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">📝</div>
+                    <h3>25 Policy Proposals</h3>
+                    <p>Student-written proposals submitted to local government</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">🎤</div>
+                    <h3>50+ Students Spoke</h3>
+                    <p>Youth voices at town halls and public meetings</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Members -->
+    <section class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">Our Team</h2>
+            <p class="section-subtitle">Meet the people behind CivicRising</p>
+
+            <div class="team-grid-large">
+                <div class="team-member-card">
+                    <div class="member-avatar" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <span class="avatar-initial">WY</span>
+                    </div>
+                    <h3>William Yoon</h3>
+                    <p class="member-title">Founder</p>
+                    <p class="member-bio">Founded CivicRising to empower students to become active, informed citizens and create meaningful change in their communities.</p>
+                    <div class="member-interests">
+                        <span>🌟 Civic Engagement</span>
+                        <span>📚 Education</span>
+                        <span>🤝 Community Building</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Photo Gallery -->
+    <section class="section">
+        <div class="container">
+            <div class="media-header">
+                <div>
+                    <h2 class="section-title">📸 Photo Gallery</h2>
+                    <p class="section-subtitle">Moments from our meetings and activities</p>
+                </div>
+                <button class="btn-add-media" id="addPhotoBtn">+ Add Photo</button>
+            </div>
+
+            <div class="gallery-grid" id="photoGallery">
+                <!-- Photos will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Videos -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="media-header">
+                <div>
+                    <h2 class="section-title">🎬 Videos</h2>
+                    <p class="section-subtitle">Watch our presentations and activities</p>
+                </div>
+                <button class="btn-add-media" id="addVideoBtn">+ Add Video</button>
+            </div>
+
+            <div class="videos-grid" id="videosGrid">
+                <!-- Videos will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Presentations -->
+    <section class="section">
+        <div class="container">
+            <div class="media-header">
+                <div>
+                    <h2 class="section-title">📊 Presentations & Slides</h2>
+                    <p class="section-subtitle">Download our presentation materials</p>
+                </div>
+                <button class="btn-add-media" id="addPresentationBtn">+ Add Presentation</button>
+            </div>
+
+            <div class="presentations-grid" id="presentationsGrid">
+                <!-- Presentations will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="section bg-light">
+        <div class="container">
+            <div class="cta-box">
+                <h2>Be Part of the Data!</h2>
+                <p>Join one of our programs and help us grow these numbers even more!</p>
+                <div class="cta-buttons">
+                    <a href="youth-actions.html" class="btn-primary">Join Youth Actions</a>
+                    <a href="community-events.html" class="btn-secondary">View Events</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CivicRising</h3>
+                    <p>Empowering students to become active, informed citizens</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="civics-education.html">Civics Education</a></li>
+                        <li><a href="youth-actions.html">Youth Actions</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: williamyoon777@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CivicRising. Made with ❤️ by students, for students.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Media Upload Modal -->
+    <div class="modal" id="mediaModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="mediaModalTitle">Add New Media</h2>
+                <button class="modal-close" id="closeMediaModal">&times;</button>
+            </div>
+            <form id="mediaForm" class="event-form">
+                <!-- Photo Fields -->
+                <div id="photoFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="photoUrl">Photo URL *</label>
+                        <input type="url" id="photoUrl" placeholder="Enter image URL (e.g., https://example.com/photo.jpg)">
+                    </div>
+                    <div class="form-group">
+                        <label for="photoCaption">Caption *</label>
+                        <input type="text" id="photoCaption" placeholder="Enter photo caption">
+                    </div>
+                </div>
+
+                <!-- Video Fields -->
+                <div id="videoFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="videoUrl">Video URL *</label>
+                        <input type="url" id="videoUrl" placeholder="YouTube, Vimeo, or direct video URL">
+                        <small>Supports YouTube, Vimeo, or direct video file URLs</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="videoTitle">Video Title *</label>
+                        <input type="text" id="videoTitle" placeholder="Enter video title">
+                    </div>
+                    <div class="form-group">
+                        <label for="videoDescription">Description *</label>
+                        <textarea id="videoDescription" rows="3" placeholder="Describe the video..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Presentation Fields -->
+                <div id="presentationFields" style="display: none;">
+                    <div class="form-group">
+                        <label for="presentationUrl">File URL *</label>
+                        <input type="url" id="presentationUrl" placeholder="Enter file URL (e.g., Google Drive, Dropbox link)">
+                    </div>
+                    <div class="form-group">
+                        <label for="presentationTitle">Title *</label>
+                        <input type="text" id="presentationTitle" placeholder="Enter presentation title">
+                    </div>
+                    <div class="form-group">
+                        <label for="presentationDescription">Description *</label>
+                        <textarea id="presentationDescription" rows="3" placeholder="Describe the presentation..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="presentationDate">Date *</label>
+                            <input type="text" id="presentationDate" placeholder="e.g., Nov 2024">
+                        </div>
+                        <div class="form-group">
+                            <label for="presentationFormat">Format *</label>
+                            <select id="presentationFormat">
+                                <option value="PDF Format">PDF Format</option>
+                                <option value="PowerPoint">PowerPoint</option>
+                                <option value="Google Slides">Google Slides</option>
+                                <option value="Keynote">Keynote</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelMediaBtn">Cancel</button>
+                    <button type="submit" class="btn-submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="media.js"></script>
+</body>
+</html>

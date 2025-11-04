@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Events - CivicRising</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <h1>🌟 CivicRising</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><span class="nav-icon">🏠</span>Home</a></li>
+                <li><a href="civics-education.html"><span class="nav-icon">📚</span>Education</a></li>
+                <li><a href="community-issues.html"><span class="nav-icon">🌍</span>Issues</a></li>
+                <li><a href="civics-data.html"><span class="nav-icon">📊</span>Data</a></li>
+                <li><a href="youth-actions.html"><span class="nav-icon">✊</span>Actions</a></li>
+                <li><a href="community-events.html" class="active"><span class="nav-icon">📅</span>Events</a></li>
+                <li><a href="resources.html"><span class="nav-icon">💡</span>Resources</a></li>
+                <li><a href="team.html"><span class="nav-icon">👥</span>About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>📅 Community Events</h1>
+            <p>Join us at upcoming events and activities!</p>
+        </div>
+    </section>
+
+    <!-- Events Board -->
+    <section class="section events-board-section">
+        <div class="container">
+            <div class="board-header">
+                <h2 class="board-title">Events Board</h2>
+                <button class="btn-add-event" id="addEventBtn">+ Add New Event</button>
+            </div>
+
+            <!-- Events List -->
+            <div class="events-board" id="eventsBoard">
+                <!-- Events will be dynamically loaded here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">📅</div>
+                <h3>No Events Yet</h3>
+                <p>Click "Add New Event" to create your first event!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add/Edit Event Modal -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Event</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form id="eventForm" class="event-form">
+                <input type="hidden" id="eventId">
+
+                <div class="form-group">
+                    <label for="eventTitle">Event Title *</label>
+                    <input type="text" id="eventTitle" required placeholder="Enter event title">
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDate">Date *</label>
+                    <input type="date" id="eventDate" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventHour">Hour *</label>
+                        <select id="eventHour" required>
+                            <option value="">Select hour</option>
+                            <option value="00">12 AM</option>
+                            <option value="01">1 AM</option>
+                            <option value="02">2 AM</option>
+                            <option value="03">3 AM</option>
+                            <option value="04">4 AM</option>
+                            <option value="05">5 AM</option>
+                            <option value="06">6 AM</option>
+                            <option value="07">7 AM</option>
+                            <option value="08">8 AM</option>
+                            <option value="09">9 AM</option>
+                            <option value="10">10 AM</option>
+                            <option value="11">11 AM</option>
+                            <option value="12">12 PM</option>
+                            <option value="13">1 PM</option>
+                            <option value="14">2 PM</option>
+                            <option value="15">3 PM</option>
+                            <option value="16">4 PM</option>
+                            <option value="17">5 PM</option>
+                            <option value="18">6 PM</option>
+                            <option value="19">7 PM</option>
+                            <option value="20">8 PM</option>
+                            <option value="21">9 PM</option>
+                            <option value="22">10 PM</option>
+                            <option value="23">11 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventMinute">Minute *</label>
+                        <select id="eventMinute" required>
+                            <option value="00">:00</option>
+                            <option value="30">:30</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventLocation">Location *</label>
+                    <input type="text" id="eventLocation" required placeholder="Enter location">
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDescription">Description *</label>
+                    <textarea id="eventDescription" rows="4" required placeholder="Describe the event..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventCategory">Category</label>
+                    <select id="eventCategory">
+                        <option value="Community">Community</option>
+                        <option value="Education">Education</option>
+                        <option value="Advocacy">Advocacy</option>
+                        <option value="Volunteering">Volunteering</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Social">Social</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="btn-submit">Save Event</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>CivicRising</h3>
+                    <p>Empowering students to become active, informed citizens</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="civics-education.html">Civics Education</a></li>
+                        <li><a href="youth-actions.html">Youth Actions</a></li>
+                        <li><a href="resources.html">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: williamyoon777@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CivicRising. Made with ❤️ by students, for students.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="events.js"></script>
+</body>
+</html>
