@@ -1,14 +1,13 @@
 // Firebase Configuration
-// IMPORTANT: Replace these values with your own Firebase project credentials
-// Get these from: Firebase Console > Project Settings > Your apps > Web app
+// CivicRising Firebase Project
 
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY_HERE",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyDYvvivpNSaJOoQ_rlr2rlPQ1kG52GUOgo",
+    authDomain: "civicrising-c9431.firebaseapp.com",
+    projectId: "civicrising-c9431",
+    storageBucket: "civicrising-c9431.firebasestorage.app",
+    messagingSenderId: "689558451915",
+    appId: "1:689558451915:web:adbc2514e746beda05cd4e"
 };
 
 // Initialize Firebase
