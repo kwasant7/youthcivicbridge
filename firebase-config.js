@@ -15,6 +15,3 @@ firebase.initializeApp(firebaseConfig);
 
 // Get a reference to the Firestore service
 const db = firebase.firestore();
-
-// Get a reference to the Storage service
-const storage = firebase.storage();

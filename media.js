@@ -55,24 +55,6 @@ class MediaManager {
         });
         this.mediaForm.addEventListener('submit', (e) => this.handleSubmit(e));
 
-        // Toggle between file upload and URL input for photos
-        document.querySelectorAll('input[name="photoUploadMethod"]').forEach(radio => {
-            radio.addEventListener('change', (e) => {
-                const photoFileGroup = document.getElementById('photoFileGroup');
-                const photoUrlGroup = document.getElementById('photoUrlGroup');
-                if (e.target.value === 'file') {
-                    photoFileGroup.style.display = 'block';
-                    photoUrlGroup.style.display = 'none';
-                    document.getElementById('photoFile').required = true;
-                    document.getElementById('photoUrl').required = false;
-                } else {
-                    photoFileGroup.style.display = 'none';
-                    photoUrlGroup.style.display = 'block';
-                    document.getElementById('photoFile').required = false;
-                    document.getElementById('photoUrl').required = true;
-                }
-            });
-        });
 
         // Load media from Firestore with real-time listeners
         this.loadPhotos();
@@ -335,71 +317,15 @@ class MediaManager {
         this.currentMediaType = null;
     }
 
-    // Upload file to Firebase Storage
-    async uploadPhotoFile(file) {
-        // Validate file size (max 5MB)
-        if (file.size > 5 * 1024 * 1024) {
-            throw new Error('File size must be less than 5MB');
-        }
-
-        // Create unique filename
-        const timestamp = Date.now();
-        const filename = `photos/${timestamp}_${file.name}`;
-
-        // Upload file
-        const storageRef = storage.ref(filename);
-        const uploadTask = await storageRef.put(file);
-
-        // Get download URL
-        const downloadURL = await uploadTask.ref.getDownloadURL();
-        return downloadURL;
-    }
-
     // Handle form submission
     async handleSubmit(e) {
         e.preventDefault();
 
         try {
             if (this.currentMediaType === 'photo') {
-                let photoUrl;
-
-                // Check upload method
-                const uploadMethod = document.querySelector('input[name="photoUploadMethod"]:checked').value;
-
-                if (uploadMethod === 'file') {
-                    const fileInput = document.getElementById('photoFile');
-                    if (!fileInput.files || !fileInput.files[0]) {
-                        alert('Please select a photo file');
-                        return;
-                    }
-
-                    // Show uploading message
-                    const submitBtn = e.target.querySelector('button[type="submit"]');
-                    const originalText = submitBtn.textContent;
-                    submitBtn.textContent = 'Uploading...';
-                    submitBtn.disabled = true;
-
-                    try {
-                        photoUrl = await this.uploadPhotoFile(fileInput.files[0]);
-                    } catch (error) {
-                        submitBtn.textContent = originalText;
-                        submitBtn.disabled = false;
-                        throw error;
-                    }
-
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                } else {
-                    photoUrl = document.getElementById('photoUrl').value;
-                    if (!photoUrl) {
-                        alert('Please enter a photo URL');
-                        return;
-                    }
-                }
-
                 const photoData = {
                     id: this.currentEditId || Date.now().toString(),
-                    url: photoUrl,
+                    url: document.getElementById('photoUrl').value,
                     caption: document.getElementById('photoCaption').value,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };

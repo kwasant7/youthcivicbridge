@@ -237,26 +237,9 @@
                 <!-- Photo Fields -->
                 <div id="photoFields" style="display: none;">
                     <div class="form-group">
-                        <label>Upload Method</label>
-                        <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-                                <input type="radio" name="photoUploadMethod" value="file" checked>
-                                Upload File
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 5px; cursor: pointer;">
-                                <input type="radio" name="photoUploadMethod" value="url">
-                                Enter URL
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group" id="photoFileGroup">
-                        <label for="photoFile">Choose Photo File *</label>
-                        <input type="file" id="photoFile" accept="image/*">
-                        <small>Supports: JPG, PNG, GIF, WebP (Max 5MB)</small>
-                    </div>
-                    <div class="form-group" id="photoUrlGroup" style="display: none;">
                         <label for="photoUrl">Photo URL *</label>
-                        <input type="url" id="photoUrl" placeholder="Enter image URL (e.g., https://example.com/photo.jpg)">
+                        <input type="url" id="photoUrl" placeholder="Enter image URL (e.g., https://i.imgur.com/example.jpg)" required>
+                        <small>Use image hosting services like <a href="https://imgur.com" target="_blank">Imgur</a>, Google Photos, or any direct image URL</small>
                     </div>
                     <div class="form-group">
                         <label for="photoCaption">Caption *</label>
@@ -324,7 +307,6 @@
     <!-- Firebase SDK (최신 버전) -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
 
     <!-- Firebase Configuration -->
     <script src="firebase-config.js"></script>
