@@ -3059,3 +3059,79 @@ body {
         gap: 1.5rem;
     }
 }
+
+/* ============================================
+   IMAGE UPLOAD STYLES
+   ============================================ */
+
+/* Upload Method Toggle */
+.upload-method-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.method-btn {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e5e7eb;
+    background: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #6b7280;
+    transition: all 0.2s ease;
+}
+
+.method-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+    background: #f9fafb;
+}
+
+.method-btn.active {
+    border-color: #667eea;
+    background: #667eea;
+    color: white;
+}
+
+/* File Input Styling */
+input[type="file"] {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    background: #f9fafb;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+}
+
+input[type="file"]:hover {
+    border-color: #667eea;
+    background: #f3f4f6;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+#uploadStatus {
+    display: block;
+    margin-top: 0.5rem;
+    color: #667eea;
+    font-weight: 500;
+}

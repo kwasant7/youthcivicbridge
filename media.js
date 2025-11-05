@@ -55,7 +55,6 @@ class MediaManager {
         });
         this.mediaForm.addEventListener('submit', (e) => this.handleSubmit(e));
 
-
         // Load media from Firestore with real-time listeners
         this.loadPhotos();
         this.loadVideos();
@@ -189,7 +188,7 @@ class MediaManager {
                     </div>
                 </div>
                 <div class="presentation-actions">
-                    <a href="${this.escapeHtml(pres.url)}" class="btn-download-presentation" target="_blank">Download</a>
+                    <a href="${this.escapeHtml(pres.url)}" class="btn-download-presentation" target="_blank">View/Download</a>
                     <button class="btn-edit-media" data-id="${pres.id}" data-type="presentation">Edit</button>
                     <button class="btn-delete-media" data-id="${pres.id}" data-type="presentation">Delete</button>
                 </div>
@@ -242,28 +241,59 @@ class MediaManager {
 
     // Open modal to add new media
     openAddModal(type) {
+        console.log('=== OPENING ADD MODAL ===');
+        console.log('Type:', type);
+
         this.currentEditId = null;
         this.currentMediaType = type;
         this.mediaForm.reset();
 
-        // Hide all field groups
+        console.log('Current media type set to:', this.currentMediaType);
+
+        // Hide all field groups and disable their required fields
         this.photoFields.style.display = 'none';
         this.videoFields.style.display = 'none';
         this.presentationFields.style.display = 'none';
 
-        // Show relevant fields
+        // Disable required on all fields first
+        document.getElementById('photoUrl').required = false;
+        document.getElementById('photoCaption').required = false;
+        document.getElementById('videoUrl').required = false;
+        document.getElementById('videoTitle').required = false;
+        document.getElementById('videoDescription').required = false;
+        document.getElementById('presentationUrl').required = false;
+        document.getElementById('presentationTitle').required = false;
+        document.getElementById('presentationDescription').required = false;
+        document.getElementById('presentationDate').required = false;
+        document.getElementById('presentationFormat').required = false;
+
+        // Show relevant fields and enable their required attributes
         if (type === 'photo') {
             this.modalTitle.textContent = 'Add New Photo';
             this.photoFields.style.display = 'block';
+            document.getElementById('photoUrl').required = true;
+            document.getElementById('photoCaption').required = true;
+            console.log('Photo fields displayed');
         } else if (type === 'video') {
             this.modalTitle.textContent = 'Add New Video';
             this.videoFields.style.display = 'block';
+            document.getElementById('videoUrl').required = true;
+            document.getElementById('videoTitle').required = true;
+            document.getElementById('videoDescription').required = true;
+            console.log('Video fields displayed');
         } else if (type === 'presentation') {
             this.modalTitle.textContent = 'Add New Presentation';
             this.presentationFields.style.display = 'block';
+            document.getElementById('presentationUrl').required = true;
+            document.getElementById('presentationTitle').required = true;
+            document.getElementById('presentationDescription').required = true;
+            document.getElementById('presentationDate').required = true;
+            document.getElementById('presentationFormat').required = true;
+            console.log('Presentation fields displayed');
         }
 
         this.modal.classList.add('active');
+        console.log('Modal opened');
     }
 
     // Open modal to edit existing media
@@ -317,15 +347,80 @@ class MediaManager {
         this.currentMediaType = null;
     }
 
+    // Convert various image URLs to direct image URLs
+    convertToDirectImageUrl(url) {
+        if (!url) return url;
+
+        // Imgur conversions
+        // https://imgur.com/abc123 -> https://i.imgur.com/abc123.jpg
+        // https://imgur.com/a/abc123 -> https://i.imgur.com/abc123.jpg
+        if (url.includes('imgur.com') && !url.includes('i.imgur.com')) {
+            const imgurMatch = url.match(/imgur\.com\/(?:a\/)?([a-zA-Z0-9]+)/);
+            if (imgurMatch) {
+                const imageId = imgurMatch[1];
+                // Try common extensions
+                return `https://i.imgur.com/${imageId}.jpg`;
+            }
+        }
+
+        // Google Drive conversions
+        // https://drive.google.com/file/d/FILE_ID/view -> direct link
+        if (url.includes('drive.google.com/file/d/')) {
+            const driveMatch = url.match(/\/file\/d\/([^\/]+)/);
+            if (driveMatch) {
+                const fileId = driveMatch[1];
+                return `https://drive.google.com/uc?export=view&id=${fileId}`;
+            }
+        }
+
+        return url;
+    }
+
+    // Convert presentation URLs to viewable/downloadable format
+    convertPresentationUrl(url) {
+        if (!url) return url;
+
+        // Google Slides conversions - keep original for viewing
+        // User can view in browser and download from there
+        if (url.includes('docs.google.com/presentation')) {
+            const slideMatch = url.match(/\/presentation\/d\/([a-zA-Z0-9-_]+)/);
+            if (slideMatch) {
+                const fileId = slideMatch[1];
+                // Use preview mode - works better for public access
+                return `https://docs.google.com/presentation/d/${fileId}/preview`;
+            }
+        }
+
+        // Google Drive presentation link - convert to preview
+        if (url.includes('drive.google.com/file/d/')) {
+            const driveMatch = url.match(/\/file\/d\/([^\/]+)/);
+            if (driveMatch) {
+                const fileId = driveMatch[1];
+                // Use preview mode instead of download
+                return `https://drive.google.com/file/d/${fileId}/preview`;
+            }
+        }
+
+        return url;
+    }
+
     // Handle form submission
     async handleSubmit(e) {
         e.preventDefault();
 
+        console.log('=== FORM SUBMIT TRIGGERED ===');
+        console.log('Current media type:', this.currentMediaType);
+
         try {
             if (this.currentMediaType === 'photo') {
+                let photoUrl = document.getElementById('photoUrl').value;
+
+                // Convert to direct image URL if needed
+                photoUrl = this.convertToDirectImageUrl(photoUrl);
+
                 const photoData = {
                     id: this.currentEditId || Date.now().toString(),
-                    url: document.getElementById('photoUrl').value,
+                    url: photoUrl,
                     caption: document.getElementById('photoCaption').value,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
@@ -360,15 +455,26 @@ class MediaManager {
                 }
 
             } else if (this.currentMediaType === 'presentation') {
+                let presUrl = document.getElementById('presentationUrl').value;
+
+                console.log('Original presentation URL:', presUrl);
+
+                // Convert to downloadable presentation URL if needed
+                presUrl = this.convertPresentationUrl(presUrl);
+
+                console.log('Converted presentation URL:', presUrl);
+
                 const presData = {
                     id: this.currentEditId || Date.now().toString(),
-                    url: document.getElementById('presentationUrl').value,
+                    url: presUrl,
                     title: document.getElementById('presentationTitle').value,
                     description: document.getElementById('presentationDescription').value,
                     date: document.getElementById('presentationDate').value,
                     format: document.getElementById('presentationFormat').value,
                     updatedAt: firebase.firestore.FieldValue.serverTimestamp()
                 };
+
+                console.log('Saving presentation data:', presData);
 
                 if (this.currentEditId) {
                     const pres = this.presentations.find(p => p.id === this.currentEditId);
@@ -379,12 +485,15 @@ class MediaManager {
                     presData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
                     await this.presentationsCollection.doc(presData.id).set(presData);
                 }
+
+                console.log('Presentation saved successfully!');
             }
 
             this.closeModal();
         } catch (error) {
             console.error('Error saving media:', error);
-            alert('Failed to save. Please try again.');
+            console.error('Error details:', error.message, error.stack);
+            alert('Failed to save. Please try again. Check console for details.');
         }
     }
 

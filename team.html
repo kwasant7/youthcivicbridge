@@ -238,8 +238,15 @@
                 <div id="photoFields" style="display: none;">
                     <div class="form-group">
                         <label for="photoUrl">Photo URL *</label>
-                        <input type="url" id="photoUrl" placeholder="Enter image URL (e.g., https://i.imgur.com/example.jpg)" required>
-                        <small>Use image hosting services like <a href="https://imgur.com" target="_blank">Imgur</a>, Google Photos, or any direct image URL</small>
+                        <input type="url" id="photoUrl" placeholder="Paste any image link (Imgur, Google Drive, etc.)" required>
+                        <small style="display: block; margin-top: 8px;">
+                            <strong>✨ Auto-converts these links:</strong><br>
+                            📌 <strong>Imgur:</strong> Paste sharable link (e.g., imgur.com/abc123) - auto-converts!<br>
+                            📌 <strong>Google Drive:</strong> Share link auto-converts to direct image<br>
+                            📌 <strong>Direct URLs:</strong> Right-click image → "Copy image address"<br>
+                            <br>
+                            <strong>Quick upload:</strong> <a href="https://imgur.com/upload" target="_blank" style="color: #667eea; font-weight: 600;">Imgur (no login needed)</a>
+                        </small>
                     </div>
                     <div class="form-group">
                         <label for="photoCaption">Caption *</label>
@@ -268,24 +275,34 @@
                 <div id="presentationFields" style="display: none;">
                     <div class="form-group">
                         <label for="presentationUrl">File URL *</label>
-                        <input type="url" id="presentationUrl" placeholder="Enter file URL (e.g., Google Drive, Dropbox link)">
+                        <input type="url" id="presentationUrl" placeholder="Paste Google Slides or file link" required>
+                        <small style="display: block; margin-top: 8px;">
+                            <strong>✨ Auto-converts these links:</strong><br>
+                            📌 <strong>Google Slides:</strong> Share link → Opens in preview mode (can download from there)<br>
+                            📌 <strong>Google Drive:</strong> File share link → Opens in preview<br>
+                            📌 <strong>Direct URLs:</strong> PDF, PPTX, or any direct file URL<br>
+                            <br>
+                            <strong>⚠️ Important:</strong> Go to Share → Change to "Anyone with the link can VIEW"<br>
+                            Then copy and paste the link here.
+                        </small>
                     </div>
                     <div class="form-group">
                         <label for="presentationTitle">Title *</label>
-                        <input type="text" id="presentationTitle" placeholder="Enter presentation title">
+                        <input type="text" id="presentationTitle" placeholder="Enter presentation title" required>
                     </div>
                     <div class="form-group">
                         <label for="presentationDescription">Description *</label>
-                        <textarea id="presentationDescription" rows="3" placeholder="Describe the presentation..."></textarea>
+                        <textarea id="presentationDescription" rows="3" placeholder="Describe the presentation..." required></textarea>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label for="presentationDate">Date *</label>
-                            <input type="text" id="presentationDate" placeholder="e.g., Nov 2024">
+                            <input type="text" id="presentationDate" placeholder="e.g., Nov 2024" required>
                         </div>
                         <div class="form-group">
                             <label for="presentationFormat">Format *</label>
-                            <select id="presentationFormat">
+                            <select id="presentationFormat" required>
+                                <option value="">Select format...</option>
                                 <option value="PDF Format">PDF Format</option>
                                 <option value="PowerPoint">PowerPoint</option>
                                 <option value="Google Slides">Google Slides</option>
