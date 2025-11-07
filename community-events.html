@@ -45,7 +45,17 @@
         <div class="container">
             <div class="board-header">
                 <h2 class="board-title">Events Board</h2>
-                <button class="btn-add-event" id="addEventBtn">+ Add New Event</button>
+                <div class="board-header-actions">
+                    <div class="view-toggle">
+                        <button class="btn-view active" id="listViewBtn" data-view="list">
+                            <span>📋</span> List View
+                        </button>
+                        <button class="btn-view" id="calendarViewBtn" data-view="calendar">
+                            <span>📅</span> Calendar View
+                        </button>
+                    </div>
+                    <button class="btn-add-event" id="addEventBtn">+ Add New Event</button>
+                </div>
             </div>
 
             <!-- Filter & Search Controls -->
@@ -96,9 +106,21 @@
                 </div>
             </div>
 
-            <!-- Events List -->
+            <!-- List View -->
             <div class="events-board" id="eventsBoard">
                 <!-- Events will be dynamically loaded here -->
+            </div>
+
+            <!-- Calendar View -->
+            <div class="calendar-view" id="calendarView" style="display: none;">
+                <div class="calendar-header">
+                    <button class="btn-nav-month" id="prevMonth">‹</button>
+                    <h3 class="calendar-month-title" id="calendarMonthTitle">January 2025</h3>
+                    <button class="btn-nav-month" id="nextMonth">›</button>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Calendar will be dynamically generated -->
+                </div>
             </div>
 
             <!-- Empty State -->

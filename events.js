@@ -9,6 +9,10 @@ class EventsManager {
         this.eventsCollection = db.collection('events');
         this.unsubscribe = null;
 
+        // View state
+        this.currentView = 'list'; // 'list' or 'calendar'
+        this.currentDate = new Date();
+
         // Filter state
         this.filters = {
             search: '',
@@ -27,6 +31,17 @@ class EventsManager {
         this.modal = document.getElementById('eventModal');
         this.eventForm = document.getElementById('eventForm');
         this.modalTitle = document.getElementById('modalTitle');
+
+        // Calendar elements
+        this.calendarView = document.getElementById('calendarView');
+        this.calendarGrid = document.getElementById('calendarGrid');
+        this.calendarMonthTitle = document.getElementById('calendarMonthTitle');
+        this.prevMonthBtn = document.getElementById('prevMonth');
+        this.nextMonthBtn = document.getElementById('nextMonth');
+
+        // View toggle buttons
+        this.listViewBtn = document.getElementById('listViewBtn');
+        this.calendarViewBtn = document.getElementById('calendarViewBtn');
 
         // Filter elements
         this.searchInput = document.getElementById('searchInput');
@@ -49,6 +64,14 @@ class EventsManager {
             if (e.target === this.modal) this.closeModal();
         });
         this.eventForm.addEventListener('submit', (e) => this.handleSubmit(e));
+
+        // View toggle listeners
+        this.listViewBtn.addEventListener('click', () => this.switchView('list'));
+        this.calendarViewBtn.addEventListener('click', () => this.switchView('calendar'));
+
+        // Calendar navigation listeners
+        this.prevMonthBtn.addEventListener('click', () => this.navigateMonth(-1));
+        this.nextMonthBtn.addEventListener('click', () => this.navigateMonth(1));
 
         // Filter event listeners
         this.searchInput.addEventListener('input', () => this.handleFilterChange());
@@ -413,6 +436,185 @@ class EventsManager {
                 alert('Failed to delete event. Please try again.');
             }
         }
+    }
+
+    // Switch between list and calendar view
+    switchView(view) {
+        this.currentView = view;
+
+        if (view === 'list') {
+            this.eventsBoard.style.display = 'flex';
+            this.calendarView.style.display = 'none';
+            this.listViewBtn.classList.add('active');
+            this.calendarViewBtn.classList.remove('active');
+            this.renderEvents();
+        } else {
+            this.eventsBoard.style.display = 'none';
+            this.calendarView.style.display = 'block';
+            this.listViewBtn.classList.remove('active');
+            this.calendarViewBtn.classList.add('active');
+            this.renderCalendar();
+        }
+    }
+
+    // Navigate months in calendar view
+    navigateMonth(direction) {
+        this.currentDate.setMonth(this.currentDate.getMonth() + direction);
+        this.renderCalendar();
+    }
+
+    // Render calendar view
+    renderCalendar() {
+        const year = this.currentDate.getFullYear();
+        const month = this.currentDate.getMonth();
+
+        // Update month title
+        this.calendarMonthTitle.textContent = new Date(year, month, 1).toLocaleDateString('en-US', {
+            month: 'long',
+            year: 'numeric'
+        });
+
+        // Get first day of month and number of days
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+        const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+        // Build calendar HTML
+        let calendarHTML = '<div class="calendar-weekdays">';
+        const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        weekdays.forEach(day => {
+            calendarHTML += `<div class="calendar-weekday">${day}</div>`;
+        });
+        calendarHTML += '</div><div class="calendar-days">';
+
+        // Previous month days
+        for (let i = firstDay - 1; i >= 0; i--) {
+            const day = daysInPrevMonth - i;
+            calendarHTML += `<div class="calendar-day other-month">${day}</div>`;
+        }
+
+        // Current month days
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dayEvents = this.getEventsForDate(dateStr);
+            const isToday = this.isToday(year, month, day);
+            const todayClass = isToday ? 'today' : '';
+
+            calendarHTML += `<div class="calendar-day ${todayClass}" data-date="${dateStr}">
+                <div class="day-number">${day}</div>`;
+
+            if (dayEvents.length > 0) {
+                calendarHTML += '<div class="day-events">';
+                dayEvents.slice(0, 3).forEach(event => {
+                    const categoryColors = {
+                        'Community': '#667eea',
+                        'Education': '#f59e0b',
+                        'Advocacy': '#ef4444',
+                        'Volunteering': '#10b981',
+                        'Workshop': '#8b5cf6',
+                        'Social': '#ec4899'
+                    };
+                    const color = categoryColors[event.category] || '#667eea';
+                    calendarHTML += `
+                        <div class="calendar-event" style="background: ${color}" title="${this.escapeHtml(event.title)} - ${this.formatTime(event.time)}">
+                            ${this.escapeHtml(event.title.length > 15 ? event.title.substring(0, 15) + '...' : event.title)}
+                        </div>`;
+                });
+                if (dayEvents.length > 3) {
+                    calendarHTML += `<div class="more-events">+${dayEvents.length - 3} more</div>`;
+                }
+                calendarHTML += '</div>';
+            }
+
+            calendarHTML += '</div>';
+        }
+
+        // Next month days
+        const totalCells = firstDay + daysInMonth;
+        const remainingCells = 7 - (totalCells % 7);
+        if (remainingCells < 7) {
+            for (let day = 1; day <= remainingCells; day++) {
+                calendarHTML += `<div class="calendar-day other-month">${day}</div>`;
+            }
+        }
+
+        calendarHTML += '</div>';
+        this.calendarGrid.innerHTML = calendarHTML;
+
+        // Add click listeners to calendar days
+        document.querySelectorAll('.calendar-day:not(.other-month)').forEach(dayEl => {
+            dayEl.addEventListener('click', (e) => {
+                const date = dayEl.dataset.date;
+                if (date) {
+                    this.showDayEvents(date);
+                }
+            });
+        });
+    }
+
+    // Get events for a specific date
+    getEventsForDate(dateStr) {
+        return this.events.filter(event => event.date === dateStr);
+    }
+
+    // Check if date is today
+    isToday(year, month, day) {
+        const today = new Date();
+        return today.getFullYear() === year &&
+               today.getMonth() === month &&
+               today.getDate() === day;
+    }
+
+    // Show events for a specific day
+    showDayEvents(dateStr) {
+        const dayEvents = this.getEventsForDate(dateStr);
+        if (dayEvents.length === 0) return;
+
+        const date = new Date(dateStr);
+        const formattedDate = date.toLocaleDateString('en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+            year: 'numeric'
+        });
+
+        let eventsList = dayEvents.map(event => `
+            <div class="day-event-item">
+                <strong>${this.escapeHtml(event.title)}</strong><br>
+                <span>⏰ ${this.formatTime(event.time)}</span><br>
+                <span>📍 ${this.escapeHtml(event.location)}</span><br>
+                <span class="event-cat">${event.category}</span>
+            </div>
+        `).join('');
+
+        const modal = document.createElement('div');
+        modal.className = 'day-events-modal';
+        modal.innerHTML = `
+            <div class="day-events-content">
+                <div class="day-events-header">
+                    <h3>${formattedDate}</h3>
+                    <button class="close-day-modal">&times;</button>
+                </div>
+                <div class="day-events-list">
+                    ${eventsList}
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+        setTimeout(() => modal.classList.add('active'), 10);
+
+        modal.querySelector('.close-day-modal').addEventListener('click', () => {
+            modal.classList.remove('active');
+            setTimeout(() => modal.remove(), 300);
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                setTimeout(() => modal.remove(), 300);
+            }
+        });
     }
 }
 
