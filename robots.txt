@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://civic-rising.org/sitemap.xml
+Sitemap: https://youthcivicbridge.org/sitemap.xml
