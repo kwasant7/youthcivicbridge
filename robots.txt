@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://civic-rising.org/sitemap.xml
